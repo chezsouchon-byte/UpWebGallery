@@ -1,0 +1,20 @@
+# UpWebGallery
+
+# Ne pas versionner les vraies photos par défaut
+/photos/*
+!/photos/.gitkeep
+
+# Cache runtime
+/cache/*
+!/cache/.gitkeep
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+
+# Archives locales
+*.zip
