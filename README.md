@@ -2,17 +2,15 @@
 
 **UpWebGallery** est une galerie photo haut de gamme en un seul fichier PHP.
 
-Objectif : déposer `index.php`, créer un dossier `/photos/`, puis laisser le script générer automatiquement un portfolio propre, responsive, avec navigation, lightbox, SEO/GEO, EXIF, cache et menu mobile.
+Objectif : déposer `index.php`, créer un dossier `/photos/`, puis laisser le script générer automatiquement un portfolio responsive, avec navigation, lightbox, SEO/GEO, EXIF, cache et menu mobile.
 
 ## Version stable
 
 ```text
-v1.3.0 — Stable
+v1.4.0 — Premium UX stable
 ```
 
-## Installation simple
-
-Structure minimale :
+## Installation
 
 ```text
 /index.php
@@ -27,38 +25,22 @@ Formats supportés :
 jpg, jpeg, png, gif, webp, avif
 ```
 
-Les sous-dossiers sont détectés automatiquement :
+Les sous-dossiers sont détectés automatiquement.
 
-```text
-/photos/
-  portrait/
-  voyage/
-  noir-et-blanc/
-```
+## Nouveautés v1.4.0
 
-## Dossiers
-
-```text
-/photos/   Contient les images et collections
-/cache/    Cache automatique du scan, créé/utilisé si possible
-```
-
-## Configuration
-
-Les réglages principaux sont en haut de `index.php` :
-
-```php
-$siteTitle
-$siteSubtitle
-$siteDescription
-$logoText
-$contactEmail
-$socialLinks
-```
+- Direction visuelle plus premium
+- Hero éditorial amélioré
+- Fond plus sobre et photographique
+- Barre de progression de lecture
+- Bloc de présentation de collection active
+- Micro-interactions plus discrètes
+- Mobile affiné
+- Conservation de la base stable v1.3.0
 
 ## Logo
 
-Le script détecte automatiquement un logo si l’un de ces fichiers existe :
+Le script détecte automatiquement :
 
 ```text
 /logo.svg
@@ -71,24 +53,6 @@ Sinon, il affiche le texte défini dans `$logoText`.
 
 ## Cache
 
-Le cache est automatique.
+Le cache est automatique via `/cache/`.
 
-Par défaut :
-
-```php
-$cacheEnabled = true;
-$cacheTtl = 600;
-```
-
-Si le dossier `/cache/` n’est pas inscriptible, le script continue sans cache.
-
-## GitHub
-
-Les vraies photos ne sont pas incluses par défaut dans GitHub.  
-Le dossier `/photos/` contient seulement un `.gitkeep`.
-
-C’est volontaire pour éviter de publier des photos personnelles ou lourdes.
-
-## Auteur
-
-Projet préparé pour UP-WEB / Sébastien Souchon.
+Si le dossier n’est pas inscriptible, le script continue sans cache.

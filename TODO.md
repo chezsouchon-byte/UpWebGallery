@@ -1,16 +1,13 @@
 # TODO — UpWebGallery
 
-## Prochaines pistes
+## Après v1.4.0
 
-- [ ] Améliorer encore la navigation mobile
-- [ ] Ajouter une vraie page d’aide intégrée
-- [ ] Ajouter un sitemap XML simple
-- [ ] Ajouter un sitemap images
-- [ ] Ajouter option watermark
-- [ ] Ajouter protection clic droit configurable
-- [ ] Ajouter génération WebP/AVIF côté serveur si possible
-- [ ] Ajouter PWA
-- [ ] Ajouter mode mosaïque en alternative au carrousel
+- [ ] Préparer v1.5.0 Photographe avancé
+- [ ] Améliorer EXIF avancé
+- [ ] Ajouter sitemap XML
+- [ ] Ajouter sitemap images
+- [ ] Ajouter captures d’écran GitHub
+- [ ] Créer logo SVG officiel
 
 ## Mis de côté pour l’instant
 

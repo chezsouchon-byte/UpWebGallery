@@ -1,43 +1,17 @@
-# Commandes Git pour publier UpWebGallery
+# Commandes Git — publier UpWebGallery v1.4.0
 
-## 1. Installer Git si besoin
-Télécharger Git pour Windows :
-https://git-scm.com/download/win
-
-## 2. Ouvrir PowerShell dans le dossier UpWebGallery
-
-## 3. Initialiser Git
+Dans ton dossier GitHub existant :
 
 ```powershell
-git init
+git status
 git add .
-git commit -m "Initial commit - UpWebGallery v1.3.0 stable"
-```
-
-## 4. Créer un dépôt vide sur GitHub
-
-Nom conseillé :
-
-```text
-UpWebGallery
-```
-
-Ne coche pas README, .gitignore ou licence sur GitHub, ils sont déjà inclus.
-
-## 5. Lier ton dépôt GitHub
-
-Remplace USERNAME par ton pseudo GitHub :
-
-```powershell
-git branch -M main
-git remote add origin https://github.com/USERNAME/UpWebGallery.git
-git push -u origin main
-```
-
-## 6. Pour les prochaines versions
-
-```powershell
-git add .
-git commit -m "Update UpWebGallery"
+git commit -m "v1.4.0 - Premium UX stable"
 git push
+```
+
+Créer le tag :
+
+```powershell
+git tag v1.4.0
+git push origin v1.4.0
 ```

@@ -6,7 +6,7 @@ declare(strict_types=1);
  * UpWebGallery
  * ==========================================================
  *
- * Version : 1.3.0
+ * Version : 1.4.0
  * Statut  : Stable
  * Auteur  : Sébastien Souchon / UP-WEB
  *
@@ -19,6 +19,24 @@ declare(strict_types=1);
  * ----------------------------------------------------------
  * CHANGELOG
  * ----------------------------------------------------------
+ *
+ * v1.4.0 - Premium UX
+ * Ajouts :
+ * + Hero éditorial plus premium
+ * + Bandeau d’introduction plus lisible
+ * + Barre de progression de lecture
+ * + Indicateur de collection active
+ * + Micro-interactions plus sobres
+ * + Footer projet plus professionnel
+ *
+ * Modifications :
+ * * Fond encore plus discret et photographique
+ * * Navigation principale clarifiée
+ * * Styles mobiles affinés
+ *
+ * Corrections :
+ * * Conservation de la base stable v1.3.0
+ * * Aucune reprise des hotfixs abandonnés v1.3.1/v1.3.2
  *
  * v1.3.0 - Photographe Pro
  * Ajouts :
@@ -89,11 +107,11 @@ ini_set('display_errors', '1');
    CONFIGURATION
 ========================= */
 
-$scriptVersion   = '1.3.0';
+$scriptVersion   = '1.4.0';
 
 $siteTitle       = 'UpWebGallery';
 $siteSubtitle    = 'Galerie photographique immersive';
-$siteDescription = 'Galerie photo dynamique généré automatiquement depuis un dossier photos, avec navigation, carrousel, mode sombre, lightbox, miniatures, SEO et GEO.';
+$siteDescription = 'Portfolio photo dynamique généré automatiquement depuis un dossier photos, avec navigation, carrousel, mode sombre, lightbox, miniatures, SEO et GEO.';
 $logoText        = 'PS';
 
 $contactEmail    = 'contact@example.com';
@@ -604,7 +622,7 @@ $siteRootUrl = site_origin() . script_base_url() . '/';
 $ogImage = !empty($gallery['images']) ? $gallery['images'][0]['absolute_url'] : '';
 
 $seoKeywords = implode(', ', array_filter([
-    'galerie photo',
+    'portfolio photo',
     'galerie photo',
     'photographe',
     'photographie',
@@ -795,9 +813,8 @@ body::before {
     z-index: -3;
     pointer-events: none;
     background:
-        radial-gradient(circle at 50% -10%, rgba(216,180,106,.16), transparent 34%),
-        radial-gradient(circle at 82% 12%, rgba(255,255,255,.07), transparent 24%),
-        linear-gradient(115deg, transparent 0 48%, rgba(216,180,106,.045) 49%, transparent 63%);
+        radial-gradient(circle at 48% -12%, rgba(216,180,106,.10), transparent 32%),
+        linear-gradient(115deg, transparent 0 54%, rgba(216,180,106,.026) 55%, transparent 66%);
 }
 
 body::after {
@@ -812,6 +829,61 @@ body::after {
         repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px);
     mix-blend-mode: overlay;
 }
+
+
+.read-progress {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, var(--gold2), var(--gold));
+    box-shadow: 0 0 22px rgba(216,180,106,.42);
+}
+
+.editorial-intro {
+    display: grid;
+    grid-template-columns: minmax(220px, .42fr) minmax(0, 1fr);
+    gap: clamp(18px, 4vw, 54px);
+    align-items: center;
+    margin: 0 0 32px;
+    padding: clamp(18px, 3vw, 30px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background:
+        linear-gradient(135deg, rgba(216,180,106,.08), transparent 42%),
+        var(--surface);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow2);
+}
+
+.editorial-intro span {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--accent);
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+.editorial-intro strong {
+    display: block;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2rem, 3.8vw, 4rem);
+    line-height: .92;
+    font-weight: 500;
+    letter-spacing: -.045em;
+}
+
+.editorial-intro p {
+    margin: 0;
+    max-width: 760px;
+    color: var(--muted);
+    font-size: clamp(1rem, 1.4vw, 1.18rem);
+}
+
 
 a {
     color: inherit;
@@ -1331,6 +1403,7 @@ h2 {
 }
 
 .photo-card {
+    position: relative;
     scroll-snap-align: center;
     overflow: hidden;
     border-radius: calc(var(--radius) + 4px);
@@ -1346,6 +1419,22 @@ h2 {
     transform: translateY(-7px);
     box-shadow: var(--shadow);
     border-color: color-mix(in srgb, var(--gold) 38%, var(--line));
+}
+
+.photo-card::after {
+    content: "";
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(216,180,106,.48), transparent);
+    opacity: 0;
+    transition: opacity .28s ease;
+}
+
+.photo-card:hover::after {
+    opacity: 1;
 }
 
 .photo-button {
@@ -1800,6 +1889,11 @@ h2 {
         padding-top: 48px;
     }
 
+    .editorial-intro {
+        grid-template-columns: 1fr;
+        border-radius: 22px;
+    }
+
     .kicker {
         letter-spacing: .12em;
     }
@@ -1940,6 +2034,7 @@ h2 {
 </head>
 
 <body>
+<div class="read-progress" id="readProgress" aria-hidden="true"></div>
 <a class="skip-link" href="#galerie">Aller à la galerie</a>
 
 <div class="wrapper" id="top">
@@ -1984,6 +2079,7 @@ h2 {
             <div class="stat"><?= count($gallery['directories']) ?> dossier(s)</div>
             <div class="stat">Sans base de données</div>
             <div class="stat">v<?= e($scriptVersion) ?></div>
+            <div class="stat"><?= $currentPath ? 'Collection : ' . e(human_title(basename($currentPath))) : 'Accueil' ?></div>
             <div class="stat"><?= !empty($gallery['from_cache']) ? 'Cache actif' : 'Scan direct' ?></div>
         </div>
     </div>
@@ -2020,6 +2116,20 @@ h2 {
         </a>
     <?php endforeach; ?>
 </nav>
+
+
+<section class="editorial-intro" aria-label="Présentation de la galerie">
+    <div>
+        <span>Collection active</span>
+        <strong><?= $currentPath ? e(human_title(basename($currentPath))) : 'Accueil' ?></strong>
+    </div>
+    <p>
+        <?= $currentPath
+            ? 'Vous consultez une collection précise. Les images restent accessibles en plein écran avec miniatures, diaporama et métadonnées si disponibles.'
+            : 'Les collections sont générées automatiquement depuis le dossier /photos/. Le portfolio reste sans base de données, sans framework et compatible hébergement PHP classique.'
+        ?>
+    </p>
+</section>
 
 <?php if (!$gallery['valid']): ?>
     <div class="empty">
@@ -2132,7 +2242,7 @@ h2 {
 
 <footer class="footer">
     <span>© <?= date('Y') ?> <?= e($siteTitle) ?></span>
-    <span class="version-badge">UpWebGallery v<?= e($scriptVersion) ?> — changelog intégré</span>
+    <span class="version-badge">UpWebGallery v<?= e($scriptVersion) ?> — Premium UX stable</span>
 </footer>
 
 </div>
@@ -2493,9 +2603,22 @@ h2 {
         }
     });
 
+    const readProgress = document.getElementById('readProgress');
     const backToTop = document.getElementById('backToTop');
 
+    function syncReadProgress() {
+        if (!readProgress) return;
+
+        const doc = document.documentElement;
+        const scrollTop = window.scrollY || doc.scrollTop;
+        const height = Math.max(1, doc.scrollHeight - window.innerHeight);
+        const percent = Math.min(100, Math.max(0, (scrollTop / height) * 100));
+        readProgress.style.width = percent + '%';
+    }
+
     function syncBackToTop() {
+        syncReadProgress();
+
         if (window.scrollY > 600) {
             backToTop.classList.add('visible');
         } else {
@@ -2505,6 +2628,7 @@ h2 {
 
     window.addEventListener('scroll', syncBackToTop, { passive: true });
     syncBackToTop();
+    syncReadProgress();
 
     backToTop.addEventListener('click', function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
